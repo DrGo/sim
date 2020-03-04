@@ -1,0 +1,23 @@
+{
+	"version": "1.0",
+	"n" : 100,
+	"diseases": [
+		{
+			"name": "diabetes",
+			"prevalence_male": 0.55,
+			"prevalence_female": 0.54,
+			"chronic": true,
+			"recurrence": 0,
+			"hospital_rate": {
+				"Mean": 0.5,
+				"SD": 1
+			},
+			"clinic_rate": {
+				"Mean": 10,
+				"SD": 4
+			},
+			"icd9": "250",
+			"icd10": "E11.9"
+		}
+	]
+}
