@@ -22,12 +22,12 @@
 			"chronic": true,
 			"recurrence": 0,
 			"hospital_rate": {
-				"Mean": 0.5,
+				"Mean": 0.25,
 				"SD": 1
 			},
 			"clinic_rate": {
-				"Mean": 10,
-				"SD": 4
+				"Mean": 6,
+				"SD": 2
 			},
 			"icd9": "250",
 			"icd10": "E11.9",
@@ -56,7 +56,13 @@
 		"This file is used to generate random but plausible patient data.",
 		"version: must be 1.0.",
 		"n: the number of patient records to generate.",
-		"rx_rate: controls the number of prescription filled for this disease in a year.",
+		"hospitalization: sets parameters for all hospitalizations regardless of disease",
+		"stay_length: provides the mean and SD of the distribution of hospital length of stay in days",
+		"diseases: array of disease descriptor",
+		"chronic and recurrence are not implemented",
+		"hospital_rate: provides the mean and SD of the distribution of number of hospitalizations per year.",
+		"clinic_rate: provides the mean and SD of the distribution of number of hospitalizations per year.",
+		"rx_rate: provides the mean and SD of the distribution of the number of prescription filled per year.",
 		"dins: an array of 1 or more drugs filled. din=as per the DPD; prob= probability of getting this DIN.",
 		""
 	]
