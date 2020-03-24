@@ -37,6 +37,7 @@ func (d *Dispatcher) SaveHosp(records []string) {
 func (d *Dispatcher) SaveClinic(records []string) {
 	d.clinicCh <- records
 }
+
 func (d *Dispatcher) SaveRx(records []string) {
 	d.rxCh <- records
 }

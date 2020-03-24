@@ -101,7 +101,10 @@ func (p *Person) addVisits() {
 		// estimate # of Rxs filled
 		n = int64(Normal(disease.RxRate.Mean, disease.RxRate.SD)) * fup
 		for i := int64(0); i < n; i++ {
-			p.dispatcher.SaveRx(p.newRx(disease, incidenceDate).toStrings())
+			rx := p.newRx(disease, incidenceDate)
+			for _, drug := range rx.Drugs {
+				p.dispatcher.SaveRx(drug.toStrings())
+			}
 		}
 	}
 }

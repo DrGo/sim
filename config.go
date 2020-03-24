@@ -42,10 +42,7 @@ type Population struct {
 }
 
 type Hospitalization struct {
-	StayLength struct {
-		Mean float64 `json:"Mean"`
-		SD   float64 `json:"SD"`
-	} `json:"stay_length"`
+	StayLength Stats `json:"stay_length"`
 }
 
 type Stats struct {

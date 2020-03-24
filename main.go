@@ -57,7 +57,7 @@ func writer(category string, dispatcher *Dispatcher, done chan struct{}) {
 		fieldNames = strings.Split("subject_id,service_date,discharge_date,code", ",")
 	case "clinic":
 		qu = dispatcher.clinicCh
-		fieldNames = strings.Split("subject_id,service_date,discharge_date,code", ",")
+		fieldNames = strings.Split("subject_id,service_date,code", ",")
 	case "rx":
 		qu = dispatcher.rxCh
 		fieldNames = strings.Split("subject_id,service_date,code", ",")
