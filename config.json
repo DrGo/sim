@@ -1,5 +1,6 @@
 {
 	"version": "1.0",
+	"seed": 12345,
 	"n": 100,
 	"population": {
 		"migrant_prob": 0.15,

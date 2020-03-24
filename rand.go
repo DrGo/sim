@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"time"
@@ -12,6 +11,9 @@ import (
 )
 
 func RangeInt(min, max int) int {
+	// if max-min <= 0 {
+	// 	log.Printf("RangeInt max %d min %d max-min %d", max, min, max-min)
+	// }
 	return rand.Intn(max-min+1) + min
 }
 
@@ -26,7 +28,6 @@ func Normal(mean, sd float64) float64 {
 // }
 
 func RangeDate(min, max int64) int64 {
-	log.Printf("max %d min %d max-min %d", max, min, max-min)
 	return rand.Int63n(max-min+1) + min
 }
 

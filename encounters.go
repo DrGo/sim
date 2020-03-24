@@ -21,13 +21,13 @@ func (v *Visit) toStrings() []string {
 	return a
 }
 
-func (p *Person) newVisit(kind int, disease *Disease) *Visit {
+func (p *Person) newVisit(kind int, disease *Disease, incidenceDate int64) *Visit {
 	v := Visit{
 		id:        p.id,
-		startDate: RangeDate(disease.incidenceDate, p.cancelDate),
+		startDate: RangeDate(incidenceDate, p.cancelDate),
 	}
 	switch kind {
-	case hospital:
+	case kindHospital:
 		v.endDate = v.startDate + int64(Normal(disease.Hospitalization.StayLength.Mean, disease.Hospitalization.StayLength.SD))*secondsInDay
 		v.diagnosis = disease.Icd10
 	default:
@@ -43,10 +43,10 @@ type Rx struct {
 	din  string
 }
 
-func (p *Person) newRx(disease *Disease) *Rx {
+func (p *Person) newRx(disease *Disease, incidenceDate int64) *Rx {
 	r := Rx{
 		id:   p.id,
-		date: RangeDate(disease.incidenceDate, p.cancelDate),
+		date: RangeDate(incidenceDate, p.cancelDate),
 	}
 	for _, din := range disease.Dins {
 		if rand.Float64() < din.Prob {

@@ -14,8 +14,8 @@ const (
 )
 
 const (
-	hospital = iota
-	clinic
+	kindHospital = iota
+	kindClinic
 )
 
 var (
@@ -85,25 +85,23 @@ func (p *Person) addVisits() {
 		if !hadIt {
 			continue
 		}
-		disease.incidenceDate = RangeDate(p.regisDate, p.cancelDate)
-		// if disease.incidenceDate >= p.cancelDate {
-		// 	log.Printf("p.cancelDate %d incidenceDate %d ", p.cancelDate, disease.incidenceDate)
-		// }
-		fup := (p.cancelDate - disease.incidenceDate) / secondsInDay / daysInYear
+		incidenceDate := RangeDate(p.regisDate, p.cancelDate)
+		fup := (p.cancelDate - incidenceDate) / secondsInDay / daysInYear
+
 		// estimate # of hospitalizations
 		n := int64(Normal(disease.HospitalRate.Mean, disease.HospitalRate.SD)) * fup
 		for i := int64(0); i < n; i++ {
-			p.dispatcher.SaveHosp(p.newVisit(hospital, disease).toStrings())
+			p.dispatcher.SaveHosp(p.newVisit(kindHospital, disease, incidenceDate).toStrings())
 		}
 		// estimate # of clinic encounters
 		n = int64(Normal(disease.ClinicRate.Mean, disease.ClinicRate.SD)) * fup
 		for i := int64(0); i < n; i++ {
-			p.dispatcher.SaveClinic(p.newVisit(clinic, disease).toStrings())
+			p.dispatcher.SaveClinic(p.newVisit(kindClinic, disease, incidenceDate).toStrings())
 		}
 		// estimate # of Rxs filled
 		n = int64(Normal(disease.RxRate.Mean, disease.RxRate.SD)) * fup
 		for i := int64(0); i < n; i++ {
-			p.dispatcher.SaveRx(p.newRx(disease).toStrings())
+			p.dispatcher.SaveRx(p.newRx(disease, incidenceDate).toStrings())
 		}
 	}
 }

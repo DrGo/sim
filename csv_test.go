@@ -14,7 +14,7 @@ func Test_person(t *testing.T) {
 	}
 	w := csv.NewWriter(os.Stdout)
 	for i := 0; i < 20; i++ {
-		p := NewPerson(config)
+		p := NewPerson(config, nil)
 		record := p.toStrings()
 		if err := w.Write(record); err != nil {
 			log.Fatalln("error writing record to csv:", err)
