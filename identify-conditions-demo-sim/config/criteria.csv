@@ -1,0 +1,4 @@
+condition_id,data_source,min_num_cases,time_between_cases,time_period,time_period_index_date
+chron_diab,DPIN,2,,1825,
+chron_diab,HOSP,1,,,
+chron_diab,PHYS,2,,1825,

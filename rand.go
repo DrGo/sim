@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"math/rand"
 	"time"
@@ -25,7 +26,8 @@ func Normal(mean, sd float64) float64 {
 // }
 
 func RangeDate(min, max int64) int64 {
-	return rand.Int63n((max - min)) + min
+	log.Printf("max %d min %d max-min %d", max, min, max-min)
+	return rand.Int63n(max-min+1) + min
 }
 
 func toTime(unix int64) time.Time {

@@ -1,6 +1,18 @@
 {
 	"version": "1.0",
-	"n" : 100,
+	"n": 100,
+	"population": {
+		"migrant_prob": 0.15,
+		"cancel_prob": 0.15,
+		"database_start_date": "1971-01-01",
+		"earliest_birth_date": "1920-01-01"
+	},
+	"hospitalization": {
+		"stay_length": {
+			"Mean": 7,
+			"SD": 1
+		}
+	},
 	"diseases": [
 		{
 			"name": "diabetes",
@@ -17,7 +29,34 @@
 				"SD": 4
 			},
 			"icd9": "250",
-			"icd10": "E11.9"
+			"icd10": "E11.9",
+			"rx_rate": {
+				"Mean": 4,
+				"SD": 2
+			},
+			"dins": [
+				{
+					"prob": 0.5,
+					"din": "02494442"
+				},
+				{
+					"prob": 0.25,
+					"din": "02483319"
+				},
+				{
+					"prob": 0.25,
+					"din": "00586714"
+				}
+			]
 		}
+	],
+	"__doc": [
+		"The following documentation is ignored by the app!",
+		"This file is used to generate random but plausible patient data.",
+		"version: must be 1.0.",
+		"n: the number of patient records to generate.",
+		"rx_rate: controls the number of prescription filled for this disease in a year.",
+		"dins: an array of 1 or more drugs filled. din=as per the DPD; prob= probability of getting this DIN.",
+		""
 	]
 }

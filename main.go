@@ -19,9 +19,10 @@ func main() {
 		log.Fatalln("error loading configuration file:", err)
 	}
 	dispatcher := NewDispatcher(bufferSize)
-	go writer("person.cvs", dispatcher.personCh, dispatcher, done)
-	go writer("hosp.cvs", dispatcher.hospCh, dispatcher, done)
-	go writer("clinic.cvs", dispatcher.clinicCh, dispatcher, done)
+	go writer("person.csv", dispatcher.personCh, dispatcher, done)
+	go writer("hosp.csv", dispatcher.hospCh, dispatcher, done)
+	go writer("clinic.csv", dispatcher.clinicCh, dispatcher, done)
+	go writer("rx.csv", dispatcher.rxCh, dispatcher, done)
 	for i := 0; i < config.N; i++ {
 		dispatcher.wg.Add(1)
 		go NewPerson(config, dispatcher)
@@ -30,8 +31,9 @@ func main() {
 	close(dispatcher.personCh)
 	close(dispatcher.hospCh)
 	close(dispatcher.clinicCh)
+	close(dispatcher.rxCh)
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 4; i++ {
 		<-done //wait for all writers to quit
 	}
 }
@@ -42,6 +44,7 @@ func writer(fileName string, qu chan []string, dispatcher *Dispatcher, done chan
 		log.Fatalln("error writing to file:", err)
 	}
 	defer f.Close()
+	//TODO: use filename to derive ch name and field variables
 	log.Println("creating file:", fileName)
 	w := csv.NewWriter(f)
 	for record := range qu {

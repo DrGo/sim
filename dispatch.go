@@ -12,6 +12,7 @@ type Dispatcher struct {
 	personCh   chan []string
 	hospCh     chan []string
 	clinicCh   chan []string
+	rxCh       chan []string
 }
 
 func NewDispatcher(bufferSize int) *Dispatcher {
@@ -21,6 +22,7 @@ func NewDispatcher(bufferSize int) *Dispatcher {
 		personCh:   make(chan []string, bufferSize),
 		hospCh:     make(chan []string, bufferSize),
 		clinicCh:   make(chan []string, bufferSize),
+		rxCh:       make(chan []string, bufferSize),
 	}
 }
 
@@ -34,6 +36,9 @@ func (d *Dispatcher) SaveHosp(records []string) {
 
 func (d *Dispatcher) SaveClinic(records []string) {
 	d.clinicCh <- records
+}
+func (d *Dispatcher) SaveRx(records []string) {
+	d.rxCh <- records
 }
 
 func (d *Dispatcher) getLastID() int64 {
