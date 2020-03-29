@@ -3,12 +3,13 @@
 /************************************************************ 
 	Setup the working root first;
 *************************************************************/
-%let WORKING_ROOT = /folders/myfolders/test;
+%let WORKING_ROOT = /folders/myfolders/conditions-demo;
 *************************************************************;
 
 %let SOURCE_PATH  = &WORKING_ROOT/source;
 %let DATA_PATH    = &WORKING_ROOT/data;
 %let CONFIG_PATH  = &WORKING_ROOT/config;
+%let RESULT_PATH  = &WORKING_ROOT/results;
 
 %let hosp_file = "&DATA_PATH/hosp.csv";
 %let phys_file = "&DATA_PATH/clinic.csv";
@@ -19,6 +20,10 @@
 %let crit_file  = "&CONFIG_PATH/criteria.csv";
 %let patt_file  = "&CONFIG_PATH/patterns.csv";
 %let rxref_file = "&CONFIG_PATH/rx_reference.csv";
+
+%let output_binary = "&RESULT_PATH/conditions_binary.csv";
+%let output_date   = "&RESULT_PATH/conditions_date.csv";
+%let output_long   = "&RESULT_PATH/conditions_long.csv";
 
 %include "/folders/myfolders/conditions-demo/source/preprocess_data.sas";
 
@@ -57,3 +62,28 @@ proc datasets library = work nolist;
 		   phys_:
 		   rxref;
 quit;
+
+* Output results to csv files;
+proc export 
+	data      = work.diab_cases_binary
+    outfile   = &output_binary
+    dbms      = dlm
+    replace;
+    delimiter = ',';
+run;
+
+proc export 
+	data      = work.diab_cases_date
+    outfile   = &output_date
+    dbms      = dlm
+    replace;
+    delimiter = ',';
+run;
+
+proc export 
+	data      = work.diab_cases_long
+    outfile   = &output_long
+    dbms      = dlm
+    replace;
+    delimiter = ',';
+run;
