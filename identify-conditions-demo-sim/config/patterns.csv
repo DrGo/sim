@@ -17,3 +17,113 @@ chron_diab,PHYS,ICD-9,249
 chron_diab,HOSP,ICD-9,250%
 chron_diab,PHYS,ICD-9,250
 chron_diab,HOSP,ICD-9,6480%
+chron_card,HOSP,ICD-10,I05*,Rheumatic mitral valve diseases
+chron_card,HOSP,ICD-10,I06*,Rheumatic aortic valve diseases
+chron_card,HOSP,ICD-10,I07*,Rheumatic tricuspid valve diseases
+chron_card,HOSP,ICD-10,I08*,Multiple valve diseases
+chron_card,HOSP,ICD-10,I09*,Other rheumatic heart diseases
+chron_card,HOSP,ICD-10,I11*,Hypertensive heart disease
+chron_card,HOSP,ICD-10,I13*,Hypertensive heart and renal disease
+chron_card,HOSP,ICD-10,I2*,Ischaemic heart diseases & Pulmonary heart disease and diseases of pulmonary circulation
+chron_card,HOSP,ICD-10,I34*,Nonrheumatic mitral valve disorders
+chron_card,HOSP,ICD-10,I35*,Nonrheumatic aortic valve disorders
+chron_card,HOSP,ICD-10,I36*,Nonrheumatic tricuspid valve disorders
+chron_card,HOSP,ICD-10,I37*,Pulmonary valve disorders
+chron_card,HOSP,ICD-10,I42*,Cardiomyopathy
+chron_card,HOSP,ICD-10,I43*,Cardiomyopathy in diseases classified elsewhere
+chron_card,HOSP,ICD-10,I44*,Atrioventricular and left bundle-branch block
+chron_card,HOSP,ICD-10,I45*,Other conduction disorders
+chron_card,HOSP,ICD-10,I46*,Cardiac arrest
+chron_card,HOSP,ICD-10,I47*,Paroxysmal tachycardia
+chron_card,HOSP,ICD-10,I48*,Atrial fibrillation and flutter
+chron_card,HOSP,ICD-10,I49*,Other cardiac arrhythmias
+chron_card,HOSP,ICD-10,I50*,Heart failure
+chron_card,HOSP,ICD-10,I51*,Complications and ill-defined descriptions of heart disease
+chron_card,HOSP,ICD-10,I52*,Other heart disorders in diseases classified elsewhere
+chron_card,HOSP,ICD-10,I60*,Subarachnoid haemorrhage
+chron_card,HOSP,ICD-10,I61*,Intracerebral haemorrhage
+chron_card,HOSP,ICD-10,I62*,Other nontraumatic intracranial haemorrhage
+chron_card,HOSP,ICD-10,I63*,Cerebral infarction
+chron_card,HOSP,ICD-10,I64*,"Stroke, not specified as haemorrhage or infarction"
+chron_card,HOSP,ICD-10,I65*,"Occlusion and stenosis of precerebral arteries, not resulting in cerebral"
+chron_card,HOSP,ICD-10,I66*,"Occlusion and stenosis of cerebral arteries, not resulting in cerebral"
+chron_card,HOSP,ICD-10,I67.0*,"Dissection of cerebral arteries, nonruptured"
+chron_card,HOSP,ICD-10,I67.1*,"Cerebral aneurysm, nonruptured"
+chron_card,HOSP,ICD-10,I67.2*,Cerebral atherosclerosis
+chron_card,HOSP,ICD-10,I67.3*,Progressive vascular leukoencephalopathy
+chron_card,HOSP,ICD-10,I67.5*,Moyamoya disease
+chron_card,HOSP,ICD-10,I67.6*,Nonpyogenic thrombosis of intracranial venous system
+chron_card,HOSP,ICD-10,I67.7*,"Cerebral arteritis, not elsewhere classified"
+chron_card,HOSP,ICD-10,I67.8*,Other specified cerebrovascular diseases
+chron_card,HOSP,ICD-10,I67.9*,"Cerebrovascular disease, unspecified"
+chron_card,HOSP,ICD-10,I68*,Cerebrovascular disorders in diseases classified elsewhere
+chron_card,HOSP,ICD-10,I69*,Sequelae of cerebrovascular disease
+chron_card,HOSP,ICD-10,I7*,"Diseases of arteries, arterioles and capillaries"
+chron_card,HOSP,ICD-9,393*,Chronic rheumatic pericarditis
+chron_card,PHYS,ICD-9,393,Chronic rheumatic pericarditis
+chron_card,HOSP,ICD-9,394*,Diseases of mitral valve
+chron_card,PHYS,ICD-9,394,Diseases of mitral valve
+chron_card,HOSP,ICD-9,395*,Diseases of aortic valve
+chron_card,PHYS,ICD-9,395,Diseases of aortic valve
+chron_card,HOSP,ICD-9,396*,Diseases of mitral and aortic valves
+chron_card,PHYS,ICD-9,396,Diseases of mitral and aortic valves
+chron_card,HOSP,ICD-9,397*,Diseases of other endocardial structures
+chron_card,PHYS,ICD-9,397,Diseases of other endocardial structures
+chron_card,HOSP,ICD-9,398*,Other rheumatic heart disease
+chron_card,PHYS,ICD-9,398,Other rheumatic heart disease
+chron_card,HOSP,ICD-9,402*,Hypertensive heart disease
+chron_card,PHYS,ICD-9,402,Hypertensive heart disease
+chron_card,HOSP,ICD-9,404*,Hypertensive heart and chronic kidney disease
+chron_card,PHYS,ICD-9,404,Hypertensive heart and chronic kidney disease
+chron_card,HOSP,ICD-9,410*,Acute myocardial infarction
+chron_card,PHYS,ICD-9,410,Acute myocardial infarction
+chron_card,HOSP,ICD-9,411*,Other acute and subacute forms of ischemic heart disease
+chron_card,PHYS,ICD-9,411,Other acute and subacute forms of ischemic heart disease
+chron_card,HOSP,ICD-9,412*,Old myocardial infarction
+chron_card,PHYS,ICD-9,412,Old myocardial infarction
+chron_card,HOSP,ICD-9,413*,Angina pectoris
+chron_card,PHYS,ICD-9,413,Angina pectoris
+chron_card,HOSP,ICD-9,414*,Other forms of chronic ischemic heart disease
+chron_card,PHYS,ICD-9,414,Other forms of chronic ischemic heart disease
+chron_card,HOSP,ICD-9,415*,Acute pulmonary heart disease
+chron_card,PHYS,ICD-9,415,Acute pulmonary heart disease
+chron_card,HOSP,ICD-9,416*,Chronic pulmonary heart disease
+chron_card,PHYS,ICD-9,416,Chronic pulmonary heart disease
+chron_card,HOSP,ICD-9,417*,Other diseases of pulmonary circulation
+chron_card,PHYS,ICD-9,417,Other diseases of pulmonary circulation
+chron_card,HOSP,ICD-9,424*,Other diseases of endocardium
+chron_card,PHYS,ICD-9,424,Other diseases of endocardium
+chron_card,HOSP,ICD-9,425*,Cardiomyopathy
+chron_card,PHYS,ICD-9,425,Cardiomyopathy
+chron_card,HOSP,ICD-9,426*,Conduction disorders
+chron_card,PHYS,ICD-9,426,Conduction disorders
+chron_card,HOSP,ICD-9,427*,Cardiac dysrhythmias
+chron_card,PHYS,ICD-9,427,Cardiac dysrhythmias
+chron_card,HOSP,ICD-9,428*,Heart failure
+chron_card,PHYS,ICD-9,428,Heart failure
+chron_card,HOSP,ICD-9,429*,Ill-defined descriptions and complications of heart disease
+chron_card,PHYS,ICD-9,429,Ill-defined descriptions and complications of heart disease
+chron_card,HOSP,ICD-9,430*,Subarachnoid hemorrhage
+chron_card,PHYS,ICD-9,430,Subarachnoid hemorrhage
+chron_card,HOSP,ICD-9,431*,Intracerebral hemorrhage
+chron_card,PHYS,ICD-9,431,Intracerebral hemorrhage
+chron_card,HOSP,ICD-9,432*,Other and unspecified intracranial hemorrhage
+chron_card,PHYS,ICD-9,432,Other and unspecified intracranial hemorrhage
+chron_card,HOSP,ICD-9,433*,Occlusion and stenosis of precerebral arteries
+chron_card,PHYS,ICD-9,433,Occlusion and stenosis of precerebral arteries
+chron_card,HOSP,ICD-9,434*,Occlusion of cerebral arteries
+chron_card,PHYS,ICD-9,434,Occlusion of cerebral arteries
+chron_card,HOSP,ICD-9,435*,Transient cerebral ischemia
+chron_card,PHYS,ICD-9,435,Transient cerebral ischemia
+chron_card,HOSP,ICD-9,437*,Other and ill-defined cerebrovascular disease
+chron_card,PHYS,ICD-9,437,Other and ill-defined cerebrovascular disease
+chron_card,HOSP,ICD-9,438*,Late effects of cerebrovascular disease
+chron_card,PHYS,ICD-9,438,Late effects of cerebrovascular disease
+chron_card,HOSP,ICD-9,440*,Atherosclerosis
+chron_card,PHYS,ICD-9,440,Atherosclerosis
+chron_card,HOSP,ICD-9,441*,Aortic aneurysm and dissection
+chron_card,PHYS,ICD-9,441,Aortic aneurysm and dissection
+chron_card,HOSP,ICD-9,442*,Other aneurysm
+chron_card,PHYS,ICD-9,442,Other aneurysm
+chron_card,HOSP,ICD-9,444*,Arterial embolism and thrombosis
+chron_card,PHYS,ICD-9,444,Arterial embolism and thrombosis
