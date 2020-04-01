@@ -1,0 +1,60 @@
+{
+    "testing_target": "Output from the conditions macro",
+    "testing_items": [
+        {
+            "description": "Date of condition is after the coverage start date",
+            "target_vars": [
+                "chron_diab_date",
+                "chron_card_date"
+            ],
+            "compared_vars": [
+                "coverage_start"
+            ],
+            "operation": ">="
+        },
+        {
+            "description": "Date of condition is after the study period start date",
+            "target_vars": [
+                "chron_diab_date",
+                "chron_card_date"
+            ],
+            "compared_vars": [
+                "study_period_start"
+            ],
+            "operation": ">="
+        },
+        {
+            "description": "Date of condition is after 40 years old",
+            "target_vars": [
+                "chron_diab_date",
+                "chron_card_date"
+            ],
+            "compared_vars": [
+                "age_valid_date"
+            ],
+            "operation": ">="
+        },
+        {
+            "description": "Date of condition is before the study period end date",
+            "target_vars": [
+                "chron_diab_date",
+                "chron_card_date"
+            ],
+            "compared_vars": [
+                "study_period_end"
+            ],
+            "operation": "<="
+        },
+        {
+            "description": "Date of condition is before the coverage end date",
+            "target_vars": [
+                "chron_diab_date",
+                "chron_card_date"
+            ],
+            "compared_vars": [
+                "coverage_end"
+            ],
+            "operation": "<="
+        }
+    ]
+}
