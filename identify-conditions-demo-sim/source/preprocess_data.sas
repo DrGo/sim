@@ -186,10 +186,27 @@ run;
 
 data study_pop;
 	set study_pop;
-	study_start_date = coverage_start;
-	study_end_date   = coverage_end;
+	
+	age_valid_date = intnx('year', birthdate, &age_lb, 'same');
+	
+	study_period_start = &study_start;
+	study_period_end   = &study_end;
+	
+	study_start_date = max(coverage_start, age_valid_date, &study_start);
+	study_end_date   = min(coverage_end, &study_end);
+	
+	valid_participant = (study_start_date <= study_end_date);
 	
 	format study_start_date
 		   study_end_date
+		   study_period_start
+		   study_period_end
+		   age_valid_date
 		   date11.;
+run;
+
+data study_pop_valid study_pop_invalid;
+	set study_pop;
+	if valid_participant then output study_pop_valid;
+	else output study_pop_invalid;
 run;
