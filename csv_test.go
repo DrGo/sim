@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+//TODO: fix test
 func Test_person(t *testing.T) {
 	config, err := LoadConfig("./config.json")
 	if err != nil {

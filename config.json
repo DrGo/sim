@@ -2,6 +2,9 @@
 	"version": "1.0",
 	"seed": 12345,
 	"n": 100,
+	"options":{
+		"location_needed": true
+	},
 	"population": {
 		"migrant_prob": 0.15,
 		"cancel_prob": 0.15,
@@ -51,6 +54,32 @@
 			]
 		}
 	],
+	"locator": {
+		"name": "postal_code",
+		"codes": [
+			{
+				"code": "R3L0E9", "freq": 20000
+			},
+			{
+				"code": "R3L1E9", "freq": 2000
+			},
+			{
+				"code": "R3L2E9", "freq": 200
+			},
+			{
+				"code": "R3L3E9", "freq": 20000
+			},
+			{
+				"code": "R3L4E9", "freq": 2000
+			},
+			{
+				"code": "R3L5E9", "freq": 200
+			},
+			{
+				"code": "R3L6E9", "freq": 20000
+			}
+		]
+	},
 	"__doc": [
 		"The following documentation is ignored by the app!",
 		"This file is used to generate random but plausible patient data.",

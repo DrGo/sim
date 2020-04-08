@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("error loading configuration file:", err)
 	}
-	dispatcher := NewDispatcher(bufferSize)
+	dispatcher := NewDispatcher(bufferSize, config)
 	go writer("person", dispatcher, done)
 	go writer("hosp", dispatcher, done)
 	go writer("clinic", dispatcher, done)
@@ -48,19 +48,16 @@ func writer(category string, dispatcher *Dispatcher, done chan struct{}) {
 	log.Println("creating file:", category)
 	var qu chan []string
 	var fieldNames []string
+	fieldNames = strings.Split(dispatcher.config.fieldNames[category], ",")
 	switch category {
 	case "person":
 		qu = dispatcher.personCh
-		fieldNames = strings.Split("subject_id,gender,birthdate,age,coverage_start,coverage_end", ",")
 	case "hosp":
 		qu = dispatcher.hospCh
-		fieldNames = strings.Split("subject_id,service_date,discharge_date,code", ",")
 	case "clinic":
 		qu = dispatcher.clinicCh
-		fieldNames = strings.Split("subject_id,service_date,code", ",")
 	case "rx":
 		qu = dispatcher.rxCh
-		fieldNames = strings.Split("subject_id,service_date,code", ",")
 	default:
 		log.Fatalln("no such output category: ", category)
 	}

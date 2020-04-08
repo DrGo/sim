@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github/drgo/alias"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -15,6 +17,15 @@ type Config struct {
 	Diseases        []*Disease       `json:"diseases"`
 	Population      *Population      `json:"population"`
 	Hospitalization *Hospitalization `json:"hospitalization"`
+	Locator         *Locator         `json:"locator"`
+	Options         struct {
+		LocationNeeded bool `json:"location_needed"`
+	} `json:"options"`
+	locatorName  string
+	locatorCodes []string
+	locatorFreqs []int
+	locatorAlias *alias.Alias
+	fieldNames   map[string]string
 }
 
 // Disease holds config for disease
@@ -55,6 +66,15 @@ type DIN struct {
 	DIN  string
 }
 
+type Locator struct {
+	Active bool   `json:"active"`
+	Name   string `json:"name"`
+	Codes  []struct {
+		Code string `json:"code"`
+		Freq int    `json:"freq"`
+	} `json:"codes"`
+}
+
 func LoadConfig(filename string) (*Config, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -92,5 +112,32 @@ func ProcessConfig(config *Config) (*Config, error) {
 			disease.Hospitalization = config.Hospitalization
 		}
 	}
+	if config.Options.LocationNeeded {
+		if config.Locator == nil {
+			return nil, fmt.Errorf("Location_needed is set to true so Configuration must include a valid Locator entry")
+		}
+		if len(config.Locator.Codes) == 0 {
+			return nil, fmt.Errorf("Location_needed is set to true so locator.codes entry must include at least one entry")
+		}
+		if strings.TrimSpace(config.Locator.Name) == "" {
+			config.Locator.Name = "postal_code"
+		}
+		for _, e := range config.Locator.Codes {
+			config.locatorCodes = append(config.locatorCodes, e.Code)
+			config.locatorFreqs = append(config.locatorFreqs, e.Freq)
+		}
+		if config.locatorAlias, err = alias.NewFreq(config.locatorFreqs); err != nil {
+			return nil, fmt.Errorf("error parsing locator information: %v", err)
+		}
+	}
+	// define field names to use in csv
+	config.fieldNames = make(map[string]string, 4)
+	config.fieldNames["person"] = "subject_id,gender,birthdate,age,coverage_start,coverage_end"
+	if config.Options.LocationNeeded {
+		config.fieldNames["person"] += "," + config.Locator.Name
+	}
+	config.fieldNames["hosp"] = "subject_id,service_date,discharge_date,code"
+	config.fieldNames["clinic"] = "subject_id,service_date,code"
+	config.fieldNames["rx"] = "subject_id,service_date,code"
 	return config, nil
 }

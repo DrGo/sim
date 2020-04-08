@@ -6,6 +6,7 @@ import (
 )
 
 type Dispatcher struct {
+	config     *Config
 	bufferSize int
 	lastID     int64
 	wg         sync.WaitGroup
@@ -15,8 +16,9 @@ type Dispatcher struct {
 	rxCh       chan []string
 }
 
-func NewDispatcher(bufferSize int) *Dispatcher {
+func NewDispatcher(bufferSize int, config *Config) *Dispatcher {
 	return &Dispatcher{
+		config:     config,
 		bufferSize: bufferSize,
 		lastID:     1000_000,
 		personCh:   make(chan []string, bufferSize),

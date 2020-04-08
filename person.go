@@ -35,6 +35,7 @@ type Person struct {
 	regisDate  int64
 	cancelDate int64
 	visits     []*Visit
+	geoCode    string
 }
 
 func NewPerson(config *Config, dispatcher *Dispatcher) *Person {
@@ -62,6 +63,9 @@ func NewPerson(config *Config, dispatcher *Dispatcher) *Person {
 	} else {
 		p.cancelDate = todayUnix
 	}
+	if config.Options.LocationNeeded {
+		p.geoCode = config.locatorCodes[p.config.locatorAlias.Draw()]
+	}
 	p.dispatcher.SavePerson(p.toStrings())
 	p.addVisits()
 	return &p
@@ -75,6 +79,9 @@ func (p *Person) toStrings() []string {
 	a = append(a, strconv.Itoa(p.age))                 //age
 	a = append(a, toTime(p.regisDate).Format(dateLayoutISO))
 	a = append(a, toTime(p.cancelDate).Format(dateLayoutISO))
+	if p.config.Options.LocationNeeded {
+		a = append(a, p.geoCode)
+	}
 	return a
 }
 
