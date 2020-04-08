@@ -2,7 +2,7 @@
 %let LABEL_DATA_SOURCE = 'Source database tag';
 
 data processed_hosp;
-		infile &hosp_file delimiter = ',' MISSOVER DSD firstobs=1;
+		infile &hosp_file delimiter = ',' MISSOVER DSD firstobs=2;
 			informat subject_id $32.;
 			informat service_date YYMMDD10.;
 			informat discharge_date YYMMDD10.;
@@ -19,24 +19,21 @@ data processed_hosp;
 run;
 
 data processed_phys;
-		infile &phys_file delimiter = ',' MISSOVER DSD firstobs=1;
+		infile &phys_file delimiter = ',' MISSOVER DSD firstobs=2;
 			informat subject_id $32.;
 			informat service_date YYMMDD10.;
-			informat some_date YYMMDD10.;
 			informat code $8.;
 			format subject_id $32.;
 			format service_date date11.;
-			format some_date date11.;
 			format code $8.;
 		input subject_id
 			  service_date
-			  some_date
 			  code $;
 		;
 run;
 
 data study_pop;
-		infile &pop_file delimiter = ',' MISSOVER DSD firstobs=1;
+		infile &pop_file delimiter = ',' MISSOVER DSD firstobs=2;
 			informat subject_id $32.;
 			informat gender $1.;
 			informat birthdate YYMMDD10.;
@@ -57,7 +54,7 @@ data study_pop;
 			  coverage_end;
 		;
 run;
-
+/*
 data processed_dpin;
 		infile &dpin_file delimiter = ',' MISSOVER DSD firstobs=2;
 			informat subject_id $32.;
@@ -73,6 +70,26 @@ data processed_dpin;
 			  coding_system $
 			  code $;
 		;
+run;
+*/
+
+data processed_dpin;
+		infile &dpin_file delimiter = ',' MISSOVER DSD firstobs=2;
+			informat subject_id $32.;
+			informat service_date YYMMDD10.;
+			informat code $8.;
+			format subject_id 32.;
+			format service_date date11.;
+			format code $8.;
+		input subject_id $
+			  service_date
+			  code $;
+		;
+run;
+
+data processed_dpin;
+	set processed_dpin;
+	coding_system = "DIN";
 run;
 
 data diab_conditions;
@@ -169,10 +186,27 @@ run;
 
 data study_pop;
 	set study_pop;
-	study_start_date = coverage_start;
-	study_end_date   = coverage_end;
+	
+	age_valid_date = intnx('year', birthdate, &age_lb, 'same');
+	
+	study_period_start = &study_start;
+	study_period_end   = &study_end;
+	
+	study_start_date = max(coverage_start, age_valid_date, &study_start);
+	study_end_date   = min(coverage_end, &study_end);
+	
+	valid_participant = (study_start_date <= study_end_date);
 	
 	format study_start_date
 		   study_end_date
+		   study_period_start
+		   study_period_end
+		   age_valid_date
 		   date11.;
+run;
+
+data study_pop_valid study_pop_invalid;
+	set study_pop;
+	if valid_participant then output study_pop_valid;
+	else output study_pop_invalid;
 run;
