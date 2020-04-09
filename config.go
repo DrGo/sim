@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github/drgo/alias"
 	"os"
 	"strings"
 	"time"
@@ -11,21 +10,17 @@ import (
 
 // Config holds info on run config
 type Config struct {
-	Version         string           `json:"version"`
-	Seed            int              `json:"seed"`
-	N               int              `json:"n"`
-	Diseases        []*Disease       `json:"diseases"`
-	Population      *Population      `json:"population"`
-	Hospitalization *Hospitalization `json:"hospitalization"`
-	Locator         *Locator         `json:"locator"`
+	Version         string            `json:"version"`
+	Seed            int               `json:"seed"`
+	N               int               `json:"n"`
+	Diseases        []*Disease        `json:"diseases"`
+	Population      *Population       `json:"population"`
+	Hospitalization *Hospitalization  `json:"hospitalization"`
+	Locator         *LookupDescriptor `json:"locator"`
 	Options         struct {
 		LocationNeeded bool `json:"location_needed"`
 	} `json:"options"`
-	locatorName  string
-	locatorCodes []string
-	locatorFreqs []int
-	locatorAlias *alias.Alias
-	fieldNames   map[string]string
+	fieldNames map[string]string
 }
 
 // Disease holds config for disease
@@ -66,13 +61,10 @@ type DIN struct {
 	DIN  string
 }
 
-type Locator struct {
-	Active bool   `json:"active"`
-	Name   string `json:"name"`
-	Codes  []struct {
-		Code string `json:"code"`
-		Freq int    `json:"freq"`
-	} `json:"codes"`
+type LookupDescriptor struct {
+	Name     string `json:"name"`
+	FileName string `json:"csv_filename"`
+	lookup   *Lookup
 }
 
 func LoadConfig(filename string) (*Config, error) {
@@ -80,6 +72,7 @@ func LoadConfig(filename string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer file.Close()
 	config := &Config{}
 	decoder := json.NewDecoder(file)
 	if err = decoder.Decode(config); err != nil {
@@ -116,18 +109,11 @@ func ProcessConfig(config *Config) (*Config, error) {
 		if config.Locator == nil {
 			return nil, fmt.Errorf("Location_needed is set to true so Configuration must include a valid Locator entry")
 		}
-		if len(config.Locator.Codes) == 0 {
-			return nil, fmt.Errorf("Location_needed is set to true so locator.codes entry must include at least one entry")
-		}
 		if strings.TrimSpace(config.Locator.Name) == "" {
 			config.Locator.Name = "postal_code"
 		}
-		for _, e := range config.Locator.Codes {
-			config.locatorCodes = append(config.locatorCodes, e.Code)
-			config.locatorFreqs = append(config.locatorFreqs, e.Freq)
-		}
-		if config.locatorAlias, err = alias.NewFreq(config.locatorFreqs); err != nil {
-			return nil, fmt.Errorf("error parsing locator information: %v", err)
+		if config.Locator.lookup, err = LoadLookup(config.Locator.FileName, config.Locator.Name, false); err != nil {
+			return nil, fmt.Errorf("cannot load locator codes from [%s]: %s", config.Locator.FileName, err)
 		}
 	}
 	// define field names to use in csv

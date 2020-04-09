@@ -64,7 +64,7 @@ func NewPerson(config *Config, dispatcher *Dispatcher) *Person {
 		p.cancelDate = todayUnix
 	}
 	if config.Options.LocationNeeded {
-		p.geoCode = config.locatorCodes[p.config.locatorAlias.Draw()]
+		p.geoCode = config.Locator.lookup.RandCode()
 	}
 	p.dispatcher.SavePerson(p.toStrings())
 	p.addVisits()
