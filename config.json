@@ -3,7 +3,8 @@
 	"seed": 12345,
 	"n": 100,
 	"options":{
-		"location_needed": true
+		"location_needed": true,
+		"hospital_location_needed": true
 	},
 	"population": {
 		"migrant_prob": 0.15,
@@ -15,6 +16,10 @@
 		"stay_length": {
 			"Mean": 7,
 			"SD": 1
+		},
+		"locator": {
+			"variable_name": "hosp_id",
+			"csv_filename": "hospital-id-lookup.csv"
 		}
 	},
 	"diseases": [
@@ -55,22 +60,11 @@
 		}
 	],
 	"locator": {
-		"name": "postal_code",
-		"csv_filename": "postal-codes.csv"
+		"variable_name": "postal_code",
+		"csv_filename": "postal-codes-lookup.csv"
 	},
 	"__doc": [
 		"The following documentation is ignored by the app!",
-		"This file is used to generate random but plausible patient data.",
-		"version: must be 1.0.",
-		"n: the number of patient records to generate.",
-		"hospitalization: sets parameters for all hospitalizations regardless of disease",
-		"stay_length: provides the mean and SD of the distribution of hospital length of stay in days",
-		"diseases: array of disease descriptor",
-		"chronic and recurrence are not implemented",
-		"hospital_rate: provides the mean and SD of the distribution of number of hospitalizations per year.",
-		"clinic_rate: provides the mean and SD of the distribution of number of hospitalizations per year.",
-		"rx_rate: provides the mean and SD of the distribution of the number of prescription filled per year.",
-		"dins: an array of 1 or more drugs filled. din=as per the DPD; prob= probability of getting this DIN.",
-		""
+		"See README.md file for details of the configuration file."
 	]
 }

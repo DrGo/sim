@@ -18,9 +18,11 @@ type Config struct {
 	Hospitalization *Hospitalization  `json:"hospitalization"`
 	Locator         *LookupDescriptor `json:"locator"`
 	Options         struct {
-		LocationNeeded bool `json:"location_needed"`
+		LocationNeeded     bool `json:"location_needed"`
+		HospLocationNeeded bool `json:"hospital_location_needed"`
 	} `json:"options"`
-	fieldNames map[string]string
+	fieldNames map[string]string //tracks fieldnames for each csv file
+	dispatcher *Dispatcher
 }
 
 // Disease holds config for disease
@@ -48,7 +50,8 @@ type Population struct {
 }
 
 type Hospitalization struct {
-	StayLength Stats `json:"stay_length"`
+	StayLength Stats             `json:"stay_length"`
+	Locator    *LookupDescriptor `json:"locator"`
 }
 
 type Stats struct {
@@ -62,7 +65,7 @@ type DIN struct {
 }
 
 type LookupDescriptor struct {
-	Name     string `json:"name"`
+	Name     string `json:"variable_name"`
 	FileName string `json:"csv_filename"`
 	lookup   *Lookup
 }
@@ -78,6 +81,7 @@ func LoadConfig(filename string) (*Config, error) {
 	if err = decoder.Decode(config); err != nil {
 		return nil, err
 	}
+	config.dispatcher = NewDispatcher(bufferSize, config)
 	return ProcessConfig(config)
 }
 
@@ -86,6 +90,9 @@ func ProcessConfig(config *Config) (*Config, error) {
 		err  error
 		date time.Time
 	)
+	if config.N < 1 {
+		return nil, fmt.Errorf("N must be larger than 0")
+	}
 	if date, err = time.Parse("2006-01-02", config.Population.DatabaseStartDate); err != nil {
 		return nil, err
 	}
@@ -116,6 +123,17 @@ func ProcessConfig(config *Config) (*Config, error) {
 			return nil, fmt.Errorf("cannot load locator codes from [%s]: %s", config.Locator.FileName, err)
 		}
 	}
+	if config.Options.HospLocationNeeded {
+		if config.Hospitalization.Locator == nil {
+			return nil, fmt.Errorf("hospital_location_needed is set to true so Configuration must include a valid hospitalization Locator entry")
+		}
+		if strings.TrimSpace(config.Hospitalization.Locator.Name) == "" {
+			config.Hospitalization.Locator.Name = "hosp_id"
+		}
+		if config.Hospitalization.Locator.lookup, err = LoadLookup(config.Hospitalization.Locator.FileName, config.Hospitalization.Locator.Name, true); err != nil {
+			return nil, fmt.Errorf("cannot load Hospitalization locator ids from [%s]: %s", config.Hospitalization.Locator.FileName, err)
+		}
+	}
 	// define field names to use in csv
 	config.fieldNames = make(map[string]string, 4)
 	config.fieldNames["person"] = "subject_id,gender,birthdate,age,coverage_start,coverage_end"
@@ -123,6 +141,9 @@ func ProcessConfig(config *Config) (*Config, error) {
 		config.fieldNames["person"] += "," + config.Locator.Name
 	}
 	config.fieldNames["hosp"] = "subject_id,service_date,discharge_date,code"
+	if config.Options.HospLocationNeeded {
+		config.fieldNames["hosp"] += "," + config.Hospitalization.Locator.Name
+	}
 	config.fieldNames["clinic"] = "subject_id,service_date,code"
 	config.fieldNames["rx"] = "subject_id,service_date,code"
 	return config, nil

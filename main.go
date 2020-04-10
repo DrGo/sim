@@ -19,47 +19,35 @@ func main() {
 	if err != nil {
 		log.Fatalln("error loading configuration file:", err)
 	}
-	dispatcher := NewDispatcher(bufferSize, config)
-	go writer("person", dispatcher, done)
-	go writer("hosp", dispatcher, done)
-	go writer("clinic", dispatcher, done)
-	go writer("rx", dispatcher, done)
+
+	go writer("person", config, done)
+	go writer("hosp", config, done)
+	go writer("clinic", config, done)
+	go writer("rx", config, done)
 	for i := 0; i < config.N; i++ {
-		dispatcher.wg.Add(1)
-		go NewPerson(config, dispatcher)
+		config.dispatcher.wg.Add(1)
+		go NewPerson(config)
 	}
-	dispatcher.wg.Wait()
-	close(dispatcher.personCh)
-	close(dispatcher.hospCh)
-	close(dispatcher.clinicCh)
-	close(dispatcher.rxCh)
+	config.dispatcher.wg.Wait()
+	config.dispatcher.closeAll()
 
 	for i := 0; i < 4; i++ {
 		<-done //wait for all writers to quit
 	}
 }
 
-func writer(category string, dispatcher *Dispatcher, done chan struct{}) {
+func writer(category string, config *Config, done chan struct{}) {
 	f, err := os.Create(category + ".csv")
 	if err != nil {
 		log.Fatalln("error writing to file:", err)
 	}
 	defer f.Close()
 	log.Println("creating file:", category)
-	var qu chan []string
 	var fieldNames []string
-	fieldNames = strings.Split(dispatcher.config.fieldNames[category], ",")
-	switch category {
-	case "person":
-		qu = dispatcher.personCh
-	case "hosp":
-		qu = dispatcher.hospCh
-	case "clinic":
-		qu = dispatcher.clinicCh
-	case "rx":
-		qu = dispatcher.rxCh
-	default:
-		log.Fatalln("no such output category: ", category)
+	fieldNames = strings.Split(config.fieldNames[category], ",")
+	qu, err := config.dispatcher.getQbyId(category)
+	if err != nil {
+		log.Fatalln(err)
 	}
 	w := csv.NewWriter(f)
 	// write fieldNames

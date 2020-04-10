@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sync"
 	"sync/atomic"
 )
@@ -46,4 +47,26 @@ func (d *Dispatcher) SaveRx(records []string) {
 
 func (d *Dispatcher) getLastID() int64 {
 	return atomic.AddInt64(&d.lastID, 1)
+}
+
+func (d *Dispatcher) getQbyId(category string) (chan []string, error) {
+	switch category {
+	case "person":
+		return d.personCh, nil
+	case "hosp":
+		return d.hospCh, nil
+	case "clinic":
+		return d.clinicCh, nil
+	case "rx":
+		return d.rxCh, nil
+	default:
+		return nil, fmt.Errorf("no such output category: %s", category)
+	}
+}
+
+func (d *Dispatcher) closeAll() {
+	close(d.personCh)
+	close(d.hospCh)
+	close(d.clinicCh)
+	close(d.rxCh)
 }

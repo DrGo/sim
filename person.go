@@ -38,16 +38,16 @@ type Person struct {
 	geoCode    string
 }
 
-func NewPerson(config *Config, dispatcher *Dispatcher) *Person {
+func NewPerson(config *Config) *Person {
 	p := Person{
 		config:     config,
-		dispatcher: dispatcher,
-		id:         dispatcher.getLastID(),
+		dispatcher: config.dispatcher, // for convenience
+		id:         config.dispatcher.getLastID(),
 		sex:        RangeInt(0, 1), //0 male 1 female
 		dob:        RangeDate(config.Population.minDate, todayUnix),
 		visits:     []*Visit{},
 	}
-	defer dispatcher.wg.Done()
+	defer p.dispatcher.wg.Done()
 	dob := toTime(p.dob)
 	p.age = today.Year() - dob.Year()
 	if rand.Float64() < config.Population.MigrantProb {

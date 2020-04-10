@@ -6,11 +6,13 @@ import (
 )
 
 type Visit struct {
+	config    *Config
 	kind      int
 	id        int64
 	startDate int64
 	endDate   int64
 	diagnosis string
+	hospID    string
 }
 
 func (v *Visit) toStrings() []string {
@@ -19,13 +21,19 @@ func (v *Visit) toStrings() []string {
 	a = append(a, toTime(v.startDate).Format(dateLayoutISO))
 	if v.kind == kindHospital {
 		a = append(a, toTime(v.endDate).Format(dateLayoutISO))
+		a = append(a, v.diagnosis)
+		if v.config.Options.HospLocationNeeded {
+			a = append(a, v.hospID)
+		}
+	} else {
+		a = append(a, v.diagnosis)
 	}
-	a = append(a, v.diagnosis)
 	return a
 }
 
 func (p *Person) newVisit(kind int, disease *Disease, incidenceDate int64) *Visit {
 	v := Visit{
+		config:    p.config,
 		kind:      kind,
 		id:        p.id,
 		startDate: RangeDate(incidenceDate, p.cancelDate),
@@ -34,6 +42,9 @@ func (p *Person) newVisit(kind int, disease *Disease, incidenceDate int64) *Visi
 	case kindHospital:
 		v.endDate = v.startDate + int64(Normal(disease.Hospitalization.StayLength.Mean, disease.Hospitalization.StayLength.SD))*secondsInDay
 		v.diagnosis = disease.Icd10
+		if v.config.Options.HospLocationNeeded {
+			v.hospID = v.config.Hospitalization.Locator.lookup.RandCode()
+		}
 	default:
 		// v.endDate = stataMissingInt64 //default to missing
 		v.diagnosis = disease.Icd9
